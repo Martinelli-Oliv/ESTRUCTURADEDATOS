@@ -1,0 +1,29 @@
+import java.util.Scanner;
+
+public class Project {
+    static void main(String[] args) {
+
+        Scanner lector = new Scanner(System.in);
+
+        int tamaño = 5;
+        int[] notas = new int[tamaño];
+        int suma = 0;
+
+        for (int i = 0; i < notas.length; i++) {
+            System.out.print("Ingrese las notas de su alumno: ");
+            notas[i] = lector.nextInt();
+            suma = suma + notas[i];
+        }
+        int notaMayor = notas[0];
+        for (int i = 0; i < notas.length; i++) {
+            if (notas[i] > notaMayor) {
+                notaMayor = notas[i];
+            }
+        }
+            double promedio = (double) suma / notas.length;
+            System.out.println("La nota más alta es: " + notaMayor);
+            System.out.println("El promedio es de: " + promedio);
+            lector.close();
+
+    }
+}
