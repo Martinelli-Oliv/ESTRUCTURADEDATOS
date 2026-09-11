@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class Productos {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.print("Ingrese la cantidad de productos que desea comprar: ");
+		int n = scanner.nextInt();
+		int[] cantidades = new int[n];
+		double[] costos = new double[n];
+		double total = 0;
+
+		for (int i = 0; i < n; i++) {
+			System.out.println("Producto " + (i + 1));
+			System.out.print("Cantidad: ");
+			cantidades[i] = scanner.nextInt();
+			System.out.print("Costo unitario: ");
+			costos[i] = scanner.nextDouble();
+			total += cantidades[i] * costos[i];
+		}
+
+		System.out.printf("Precio total: $%.2f%n", total);
+		System.out.println("Productos cuyo subtotal supera los $1000:");
+		boolean encontrado = false;
+
+		for (int i = 0; i < n; i++) {
+			double subtotal = cantidades[i] * costos[i];
+			if (subtotal > 1000) {
+				System.out.printf("Producto %d: $%.2f%n", i + 1, subtotal);
+				encontrado = true;
+			}
+		}
+
+		if (!encontrado) {
+			System.out.println("Ninguno.");
+		}
+		scanner.close();
+	}
+}
