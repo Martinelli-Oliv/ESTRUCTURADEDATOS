@@ -1,0 +1,116 @@
+import java.util.Scanner;
+
+public class Cine {
+	private static final int FILAS = 10;
+	private static final int ASIENTOS_POR_FILA = 10;
+	private static final Reserva[][] reservas = new Reserva[FILAS][ASIENTOS_POR_FILA];
+	private static final Scanner scanner = new Scanner(System.in);
+
+	public static void main(String[] args) {
+		int opcion;
+		do {
+			mostrarMapa();
+			System.out.println("\n1. Reservar asiento");
+			System.out.println("2. Eliminar reserva");
+			System.out.println("3. Salir");
+			opcion = leerEntero("Seleccione una opción: ");
+
+			switch (opcion) {
+				case 1 -> reservar();
+				case 2 -> eliminarReserva();
+				case 3 -> System.out.println("Sistema finalizado.");
+				default -> System.out.println("Opción no válida.");
+			}
+		} while (opcion != 3);
+	}
+
+	private static void mostrarMapa() {
+		System.out.println("\n===== MAPA DE LA SALA =====");
+		System.out.println("     " + " 1  2  3  4  5  6  7  8  9 10");
+		for (int fila = 0; fila < FILAS; fila++) {
+			System.out.printf("Fila %2d", fila + 1);
+			for (int asiento = 0; asiento < ASIENTOS_POR_FILA; asiento++) {
+				System.out.print(reservas[fila][asiento] == null ? " [D]" : " [R]");
+			}
+			System.out.println();
+		}
+		System.out.println("D = disponible | R = reservado");
+	}
+
+	private static void reservar() {
+		int[] ubicacion = solicitarAsiento();
+		int fila = ubicacion[0];
+		int asiento = ubicacion[1];
+
+		if (reservas[fila][asiento] != null) {
+			Reserva reserva = reservas[fila][asiento];
+			System.out.println("El asiento ya está reservado por " + reserva.nombre +
+					" (teléfono: " + reserva.telefono + ").");
+			return;
+		}
+
+		System.out.print("Nombre del cliente: ");
+		String nombre = scanner.nextLine().trim();
+		while (nombre.isEmpty()) {
+			System.out.print("El nombre no puede estar vacío: ");
+			nombre = scanner.nextLine().trim();
+		}
+		System.out.print("Teléfono del cliente: ");
+		String telefono = scanner.nextLine().trim();
+		while (telefono.isEmpty()) {
+			System.out.print("El teléfono no puede estar vacío: ");
+			telefono = scanner.nextLine().trim();
+		}
+
+		reservas[fila][asiento] = new Reserva(nombre, telefono);
+		System.out.println("Reserva realizada correctamente.");
+	}
+
+	private static void eliminarReserva() {
+		int[] ubicacion = solicitarAsiento();
+		int fila = ubicacion[0];
+		int asiento = ubicacion[1];
+		Reserva reserva = reservas[fila][asiento];
+
+		if (reserva == null) {
+			System.out.println("El asiento está disponible y no tiene una reserva.");
+		} else {
+			reservas[fila][asiento] = null;
+			System.out.println("Reserva de " + reserva.nombre + " eliminada correctamente.");
+		}
+	}
+
+	private static int[] solicitarAsiento() {
+		int fila;
+		int asiento;
+		do {
+			fila = leerEntero("Ingrese la fila (1-10): ");
+			asiento = leerEntero("Ingrese el asiento (1-10): ");
+			if (fila < 1 || fila > FILAS || asiento < 1 || asiento > ASIENTOS_POR_FILA) {
+				System.out.println("Ubicación inválida. Intente nuevamente.");
+			}
+		} while (fila < 1 || fila > FILAS || asiento < 1 || asiento > ASIENTOS_POR_FILA);
+		return new int[] { fila - 1, asiento - 1 };
+	}
+
+	private static int leerEntero(String mensaje) {
+		while (true) {
+			System.out.print(mensaje);
+			try {
+				return Integer.parseInt(scanner.nextLine().trim());
+			} catch (NumberFormatException e) {
+				System.out.println("Ingrese un número válido.");
+			}
+		}
+	}
+
+	private static class Reserva {
+		private final String nombre;
+		private final String telefono;
+
+		Reserva(String nombre, String telefono) {
+			this.nombre = nombre;
+			this.telefono = telefono;
+		}
+	}
+}
