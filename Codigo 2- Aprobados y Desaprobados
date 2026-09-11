@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Notas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Agregamos este mensaje para saber qué ingresar primero:
+        System.out.print("Ingrese la cantidad de notas a procesar: ");
+        int n = scanner.nextInt();
+        
+        double[] notas = new double[n];
+        int aprobados = 0;
+        int desaprobados = 0;
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Ingrese la nota " + (i + 1) + ": ");
+            notas[i] = scanner.nextDouble();
+
+            if (notas[i] >= 6) {
+                aprobados++;
+            } else {
+                desaprobados++;
+            }
+        }
+
+        System.out.println("\nAprobados: " + aprobados);
+        System.out.println("Desaprobados: " + desaprobados);
+        scanner.close();
+    }
+}
