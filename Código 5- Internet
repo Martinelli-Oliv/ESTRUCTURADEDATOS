@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Internet {
+   public Internet() {
+   }
+
+   public static void main(String[] var0) {
+      Scanner var1 = new Scanner(System.in);
+
+      for(int var2 = 1; var2 <= 5; ++var2) {
+         System.out.print("Ingrese el DNI del cliente " + var2 + ": ");
+         String var3 = var1.nextLine();
+
+         int var4;
+         do {
+            System.out.println("Seleccione el tipo de servicio:");
+            System.out.println("1. Internet 30 Megas ($750)");
+            System.out.println("2. Internet 50 Megas ($1100)");
+            System.out.println("3. Internet 100 Megas ($1500 con 5% de descuento)");
+            System.out.print("Ingrese el tipo de servicio (1, 2 o 3): ");
+            var4 = Integer.parseInt(var1.nextLine());
+         } while(var4 < 1 || var4 > 3);
+
+         double var5;
+         switch (var4) {
+            case 1 -> var5 = (double)750.0F;
+            case 2 -> var5 = (double)1100.0F;
+            default -> var5 = (double)1425.0F;
+         }
+
+         System.out.printf("DNI: %s | Servicio: %d | Monto a pagar: $%.2f%n", var3, var4, var5);
+      }
+
+      var1.close();
+   }
+}
